@@ -3,6 +3,10 @@ import express from 'express';
 import cors from 'cors';
 import { conectarDB } from './src/config/db.js';
 import categoryRoute from './src/routes/categoryRoute.js';
+import productRoute from './src/routes/productRoute.js';
+
+
+
 
 const app = express();
 
@@ -14,6 +18,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/categories', categoryRoute);
+app.use('/api/products', productRoute);
+
 
 const PORT = process.env.PORT || 3000;
 
