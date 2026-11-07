@@ -241,15 +241,55 @@ Respuesta (201): el producto creado, con la categoría incluida (`populate`).
 }
 ```
 
+### Listar productos: `GET /api/products` (sin body)
+
+Respuesta (200):
+
+```json
+[
+  {
+    "_id": "6aebb5c8856a57bdbb1340d9",
+    "name": "Remera básica",
+    "description": "Remera de algodón, corte clásico",
+    "price": 12500,
+    "stock": 20,
+    "image": "/images/remera-basica.jpg",
+    "sizes": ["S", "M", "L"],
+    "colors": ["blanco", "negro"],
+    "category": {
+      "_id": "6ae7e67dc18a56ff264ca196",
+      "name": "Remeras",
+      "description": "Remeras de algodón"
+    }
+  }
+]
+```
+
+### Eliminar un producto: `DELETE /api/products/:id` (admin, sin body)
+
+Respuesta (200):
+
+```json
+{ "mensaje": "Producto eliminado correctamente" }
+```
+
+> Las solicitudes `GET` y `DELETE` no llevan body. Las rutas de administrador requieren el encabezado `Authorization: Bearer <token>`.
+
 ### Errores de ejemplo
+
+Sin token (401):
 
 ```json
 { "mensaje": "Acceso denegado: falta el token" }
 ```
 
+Sin permiso de administrador (403):
+
 ```json
 { "mensaje": "Acceso denegado: se requiere rol admin" }
 ```
+
+Id con formato inválido (400):
 
 ```json
 { "mensaje": "ID de categoría inválido" }
