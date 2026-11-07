@@ -21,6 +21,7 @@ const productSchema = new mongoose.Schema(
     image: { type: String, trim: true, default: '' },
     sizes: { type: [String], default: [] },
     colors: { type: [String], default: [] },
+    highlighted: { type: Boolean, default: false },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',

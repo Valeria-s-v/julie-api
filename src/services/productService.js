@@ -9,7 +9,7 @@ const crearError = (mensaje, status) => {
 };
 
 // Solo estos campos se pueden enviar. Ignora cualquier otro
-const CAMPOS = ['name', 'description', 'price', 'stock', 'image', 'sizes', 'colors', 'category'];
+const CAMPOS = ['name', 'description', 'price', 'stock', 'image', 'sizes', 'colors', 'category', 'highlighted'];
 const filtrarCampos = (datos = {}) =>
   Object.fromEntries(Object.entries(datos).filter(([clave]) => CAMPOS.includes(clave)));
 
