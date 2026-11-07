@@ -5,11 +5,26 @@ import { conectarDB } from './src/config/db.js';
 import categoryRoute from './src/routes/categoryRoute.js';
 import productRoute from './src/routes/productRoute.js';
 import userRoute from './src/routes/userRoute.js';
+import helmet from 'helmet';
+
+// Si falta una variable obligatoria, el servidor no arranca y dice cuál es
+const faltantes = ['MONGODB_URI', 'JWT_SECRET'].filter((nombre) => !process.env[nombre]);
+if (faltantes.length > 0) {
+  throw new Error(`Faltan variables de entorno: ${faltantes.join(', ')}`);
+}
 
 const app = express();
+// Vercel recibe los pedidos a través de un proxy: así se toma la IP real de cada usuario
+app.set('trust proxy', 1);
 
-app.use(cors());
-app.use(express.json());
+// Orígenes que pueden usar la API desde un navegador (se configuran en el .env)
+const origenesPermitidos = (process.env.CORS_ORIGIN || 'http://localhost:5173')
+  .split(',')
+  .map((origen) => origen.trim());
+
+app.use(helmet());
+app.use(cors({ origin: origenesPermitidos }));
+app.use(express.json({ limit: '10kb' }));
 
 // Antes de cada pedido se asegura de que haya conexión a la base
 app.use(async (req, res, next) => {
