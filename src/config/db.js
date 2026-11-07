@@ -1,12 +1,20 @@
 import mongoose from 'mongoose';
 
+let conexion = null;
+
 export const conectarDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log('Conectado a MongoDB Atlas');
-  } catch (error) {
-    console.error('Error al conectar con MongoDB:', error.message);
-    process.exit(1); // si no hay base, no tiene sentido seguir
+  // Si ya hay una conexión abierta, la reutiliza
+  if (mongoose.connection.readyState === 1) return;
+
+  if (!conexion) {
+    conexion = mongoose
+      .connect(process.env.MONGODB_URI)
+      .then(() => console.log('Conectado a MongoDB Atlas'))
+      .catch((error) => {
+        conexion = null; // permite reintentar en el próximo pedido
+        throw error;
+      });
   }
+  await conexion;
 };
 
