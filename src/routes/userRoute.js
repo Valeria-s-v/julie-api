@@ -8,6 +8,7 @@ const router = Router();
 const limiteAuth = rateLimit({
     windowMs: 15 * 60 * 1000,
     limit: 5,
+    skipSuccessfulRequests: true,
     standardHeaders: 'draft-7',
     legacyHeaders: false,
     message: { mensaje: 'Demasiados intentos. Probá de nuevo en 15 minutos.' },
