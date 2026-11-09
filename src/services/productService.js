@@ -75,7 +75,7 @@ export const actualizarProducto = async (id, datos) => {
     await validarCategoria(campos.category);
   }
   const producto = await Product.findByIdAndUpdate(id, campos, {
-    new: true,            // devuelve el producto ya actualizado
+    returnDocument: 'after', // devuelve el producto ya actualizado
     runValidators: true,  // aplica las reglas del modelo (min, required...)
   }).populate('category', 'name description');
   if (!producto) {

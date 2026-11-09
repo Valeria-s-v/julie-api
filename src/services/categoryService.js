@@ -40,10 +40,10 @@ export const eliminarCategoria = async (id) => {
   if (!mongoose.isValidObjectId(id)) {
     throw crearError('ID de categoría inválido', 400);
   }
-     const productos = await Product.countDocuments({ category: id });
-   if (productos > 0) {
-     throw crearError('No se puede eliminar: la categoría tiene productos asociados', 400);
-   }
+  const productos = await Product.countDocuments({ category: id });
+  if (productos > 0) {
+    throw crearError('No se puede eliminar: la categoría tiene productos asociados', 400);
+  }
   const categoria = await Category.findByIdAndDelete(id);
   if (!categoria) {
     throw crearError('Categoría no encontrada', 404);
